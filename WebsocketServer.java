@@ -45,8 +45,22 @@ public class WebsocketServer {
                     request.append(data).append("\r\n");
                 }
 
-                String webSocketKey = request.toString().split("Sec-WebSocket-Key: ")[1].split("\r\n")[0];
+                System.out.println("Received request: \n" + request.toString());
+                String webSocketKey = null;
+                String[] lines = request.toString().split("\r\n");
+                for (String line : lines) {
+                    if (line.toLowerCase().startsWith("sec-websocket-key: ")) {
+                        webSocketKey = line.split(": ")[1];
+                        break;
+                    }
+                }
+
+                if (webSocketKey == null) {
+                    throw new IllegalArgumentException("WebSocket key not found in request.");
+                }
+
                 String acceptKey = generateAcceptKey(webSocketKey);
+
 
                 String response = "HTTP/1.1 101 Switching Protocols\r\n" +
                         "Upgrade: websocket\r\n" +

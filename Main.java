@@ -4,6 +4,7 @@ import java.awt.event.*;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
@@ -13,7 +14,7 @@ public class Main {
     private final JTextField inputField;
     private OutputStream outputStream;
 
-    public Main(String username, String serverIp) {
+    public Main(String username, String ngrokUrl) {
         JFrame frame = new JFrame("Chat App - " + username);
         chatArea = new JTextArea();
         inputField = new JTextField(30);
@@ -92,22 +93,27 @@ public class Main {
         frame.setSize(1280, 720);
         frame.setVisible(true);
 
-        connectToServer(serverIp);
+        connectToServer(ngrokUrl);
     }
 
-    private void connectToServer(String serverIp) {
+    private void connectToServer(String ngrokUrl) {
         try {
-            Socket socket = new Socket(serverIp, 8080);
+            URI uri = new URI(ngrokUrl);
+            String host = uri.getHost();
+            int port = uri.getPort() == -1 ? 80 : uri.getPort(); // Default to port 80 if not specified
+
+            Socket socket = new Socket(host, port);
             outputStream = socket.getOutputStream();
             InputStream inputStream = socket.getInputStream();
 
             // Perform WebSocket handshake
             String handshake = "GET / HTTP/1.1\r\n" +
-                    "Host: " + serverIp + ":8080\r\n" +
+                    "Host: " + host + "\r\n" +
                     "Upgrade: websocket\r\n" +
                     "Connection: Upgrade\r\n" +
                     "Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==\r\n" +
                     "Sec-WebSocket-Version: 13\r\n\r\n";
+
             outputStream.write(handshake.getBytes(StandardCharsets.UTF_8));
             outputStream.flush();
 
@@ -115,6 +121,7 @@ public class Main {
             byte[] buffer = new byte[4096];
             int bytesRead = inputStream.read(buffer);
             String response = new String(buffer, 0, bytesRead, StandardCharsets.UTF_8);
+            System.out.println(response);
             if (response.contains("HTTP/1.1 101 Switching Protocols")) {
                 chatArea.append("Connected to server\n");
 
@@ -177,14 +184,14 @@ public class Main {
         System.out.println("Enter username: ");
         String username = sc.nextLine();
 
-        System.out.print("Enter the server IP address: ");
-        String serverIp = sc.nextLine();
+        System.out.print("Enter the ngrok URL: ");
+        String ngrokUrl = sc.nextLine();
 
-        new Thread(() -> {
-            WebsocketServer.main(new String[]{});
-        }).start();
+//        new Thread(() -> {
+//            WebsocketServer.main(new String[]{});
+//        }).start();
 
-        SwingUtilities.invokeLater(() -> new Main(username, serverIp));
+        SwingUtilities.invokeLater(() -> new Main(username, ngrokUrl));
 
         sc.close();
     }

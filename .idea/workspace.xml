@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8b9b9314-e9b6-4f2b-a631-fa368c92c4a4" name="Changes" comment="Update gitignore (not working)?">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="8b9b9314-e9b6-4f2b-a631-fa368c92c4a4" name="Changes" comment="Add the side bar for the list of users">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebsocketServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/WebsocketServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/history.json" beforeDir="false" afterPath="$PROJECT_DIR$/history.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,18 +25,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "Awe03"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Awe03&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Awe03/ChatAppGr11.git",
-    "accountId": "6d936234-d7f1-4af6-a507-f6890080a5b9"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Awe03/ChatAppGr11.git&quot;,
+    &quot;accountId&quot;: &quot;6d936234-d7f1-4af6-a507-f6890080a5b9&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
 }</component>
@@ -60,6 +61,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\shan0\Downloads\ChatApp" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -83,6 +89,8 @@
       <workItem from="1722267352859" duration="2532000" />
       <workItem from="1722514106669" duration="206000" />
       <workItem from="1722864431453" duration="1021000" />
+      <workItem from="1722871439136" duration="103000" />
+      <workItem from="1722872011372" duration="2197000" />
     </task>
     <task id="LOCAL-00001" summary="Update gitignore (not working)?">
       <option name="closed" value="true" />
@@ -92,7 +100,15 @@
       <option name="project" value="LOCAL" />
       <updated>1722864715821</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Add the side bar for the list of users">
+      <option name="closed" value="true" />
+      <created>1722871532167</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1722871532167</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -100,6 +116,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Update gitignore (not working)?" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update gitignore (not working)?" />
+    <MESSAGE value="Add the side bar for the list of users" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add the side bar for the list of users" />
   </component>
 </project>
