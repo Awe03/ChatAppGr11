@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8b9b9314-e9b6-4f2b-a631-fa368c92c4a4" name="Changes" comment="Add the side bar for the list of users">
+    <list default="true" id="8b9b9314-e9b6-4f2b-a631-fa368c92c4a4" name="Changes" comment="Add cross platform support (ngrok)">
+      <change afterPath="$PROJECT_DIR$/MainClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebsocketServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/WebsocketServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/history.json" beforeDir="false" afterPath="$PROJECT_DIR$/history.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +40,9 @@
   &quot;associatedIndex&quot;: 4
 }</component>
   <component name="ProjectId" id="2jv8lbF0BJeURBJPU76sC1mieeb" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -90,7 +92,7 @@
       <workItem from="1722514106669" duration="206000" />
       <workItem from="1722864431453" duration="1021000" />
       <workItem from="1722871439136" duration="103000" />
-      <workItem from="1722872011372" duration="2197000" />
+      <workItem from="1722872011372" duration="2958000" />
     </task>
     <task id="LOCAL-00001" summary="Update gitignore (not working)?">
       <option name="closed" value="true" />
@@ -108,7 +110,15 @@
       <option name="project" value="LOCAL" />
       <updated>1722871532167</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Add cross platform support (ngrok)">
+      <option name="closed" value="true" />
+      <created>1722874367644</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1722874367644</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -117,6 +127,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Update gitignore (not working)?" />
     <MESSAGE value="Add the side bar for the list of users" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add the side bar for the list of users" />
+    <MESSAGE value="Add cross platform support (ngrok)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add cross platform support (ngrok)" />
   </component>
 </project>

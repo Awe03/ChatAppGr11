@@ -8,13 +8,13 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
-public class Main {
+public class MainClient {
 
     private final JTextArea chatArea;
     private final JTextField inputField;
     private OutputStream outputStream;
 
-    public Main(String username, String ngrokUrl) {
+    public MainClient(String username, String ngrokUrl) {
         JFrame frame = new JFrame("Chat App - " + username);
         chatArea = new JTextArea();
         inputField = new JTextField(30);
@@ -186,14 +186,10 @@ public class Main {
         System.out.println("Enter username: ");
         String username = sc.nextLine();
 
-        new Thread(() -> {
-            WebsocketServer.main(new String[]{});
-        }).start();
-
         System.out.print("Enter the ngrok URL: ");
         String ngrokUrl = sc.nextLine();
 
-        SwingUtilities.invokeLater(() -> new Main(username, ngrokUrl));
+        SwingUtilities.invokeLater(() -> new MainClient(username, ngrokUrl));
 
         sc.close();
     }
