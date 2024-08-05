@@ -42,14 +42,29 @@ public class Main {
         });
 
         chatArea.setEditable(false);
-        frame.setLayout(new BorderLayout());
-        frame.add(new JScrollPane(chatArea), BorderLayout.CENTER);
+
+        // Create a list of people
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        listModel.addElement("Person 1");
+        listModel.addElement("Person 2");
+        listModel.addElement("Person 3");
+        JList<String> peopleList = new JList<>(listModel);
+        JScrollPane peopleScrollPane = new JScrollPane(peopleList);
+        peopleScrollPane.setPreferredSize(new Dimension(200, 0));
+
+        // Create a panel to hold the chat area and input panel
+        JPanel chatPanel = new JPanel(new BorderLayout());
+        chatPanel.add(new JScrollPane(chatArea), BorderLayout.CENTER);
 
         JPanel inputPanel = new JPanel(new BorderLayout());
         inputField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         inputPanel.add(inputField, BorderLayout.CENTER);
         inputPanel.add(sendButton, BorderLayout.EAST);
-        frame.add(inputPanel, BorderLayout.SOUTH);
+        chatPanel.add(inputPanel, BorderLayout.SOUTH);
+
+        frame.setLayout(new BorderLayout());
+        frame.add(peopleScrollPane, BorderLayout.WEST);
+        frame.add(chatPanel, BorderLayout.CENTER);
 
         ActionListener sendAction = new ActionListener() {
             @Override
