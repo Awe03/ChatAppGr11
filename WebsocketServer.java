@@ -1,14 +1,14 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.io.*;
+import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
-import java.util.Base64;
+import java.util.*;
+import java.util.concurrent.*;
 
 public class WebsocketServer {
-
     private static final int PORT = 8080;
+    private static final List<ClientHandler> clients = new CopyOnWriteArrayList<>();
+    private static final WriteToLocal writeToLocal = new WriteToLocal();
 
     public static void main(String[] args) {
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
@@ -16,15 +16,18 @@ public class WebsocketServer {
 
             while (true) {
                 Socket clientSocket = serverSocket.accept();
-                new Thread(new ClientHandler(clientSocket)).start();
+                ClientHandler clientHandler = new ClientHandler(clientSocket);
+                clients.add(clientHandler);
+                new Thread(clientHandler).start();
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private static class ClientHandler implements Runnable {
-        private Socket clientSocket;
+        private final Socket clientSocket;
+        private OutputStream outputStream;
 
         public ClientHandler(Socket clientSocket) {
             this.clientSocket = clientSocket;
@@ -32,8 +35,8 @@ public class WebsocketServer {
 
         @Override
         public void run() {
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                 OutputStream outputStream = clientSocket.getOutputStream()) {
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
+                outputStream = clientSocket.getOutputStream();
 
                 // Perform WebSocket handshake
                 String data;
@@ -51,6 +54,12 @@ public class WebsocketServer {
                         "Sec-WebSocket-Accept: " + acceptKey + "\r\n\r\n";
                 outputStream.write(response.getBytes());
 
+                // Load and send chat history to the client
+                List<String> history = writeToLocal.loadChatHistory();
+                for (String message : history) {
+                    sendMessage(message);
+                }
+
                 // Echo messages back to the client and log them
                 while (true) {
                     int firstByte = clientSocket.getInputStream().read();
@@ -59,39 +68,51 @@ public class WebsocketServer {
                     int secondByte = clientSocket.getInputStream().read();
                     int payloadLength = secondByte & 0x7F;
 
-                    if (payloadLength == 126) {
-                        byte[] extended = new byte[2];
-                        clientSocket.getInputStream().read(extended, 0, 2);
-                        payloadLength = ((extended[0] & 0xFF) << 8) | (extended[1] & 0xFF);
-                    } else if (payloadLength == 127) {
-                        byte[] extended = new byte[8];
-                        clientSocket.getInputStream().read(extended, 0, 8);
-                        payloadLength = 0;
-                        for (int i = 0; i < 8; i++) {
-                            payloadLength = (payloadLength << 8) | (extended[i] & 0xFF);
-                        }
-                    }
-
                     byte[] payload = new byte[payloadLength];
                     clientSocket.getInputStream().read(payload, 0, payloadLength);
 
-                    // Log the received message
-                    String receivedMessage = new String(payload, "UTF-8");
-                    System.out.println("Received message: " + receivedMessage);
+                    String receivedMessage = new String(payload, StandardCharsets.UTF_8);
+                    System.out.println(receivedMessage);
 
-                    // Send the same message back to the client
-                    outputStream.write(new byte[]{(byte) 0x81, (byte) payloadLength});
-                    outputStream.write(payload);
+                    // Save the received message
+                    writeToLocal.saveMessage(receivedMessage);
+
+                    // Broadcast the received message to all clients
+                    broadcastMessage(receivedMessage);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                clients.remove(this);
+                try {
+                    clientSocket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+        }
+
+        private void broadcastMessage(String message) {
+            for (ClientHandler client : clients) {
+                try {
+                    client.sendMessage(message);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        private void sendMessage(String message) throws Exception {
+            byte[] messageBytes = message.getBytes(StandardCharsets.UTF_8);
+            outputStream.write(new byte[]{(byte) 0x81, (byte) messageBytes.length});
+            outputStream.write(messageBytes);
+            outputStream.flush();
         }
 
         private String generateAcceptKey(String webSocketKey) throws Exception {
             String key = webSocketKey + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
-            MessageDigest md = MessageDigest.getInstance("SHA-1");
-            byte[] hash = md.digest(key.getBytes("UTF-8"));
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hash = md.digest(key.getBytes(StandardCharsets.UTF_8));
             return Base64.getEncoder().encodeToString(hash);
         }
     }
