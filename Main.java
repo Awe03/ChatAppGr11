@@ -44,17 +44,6 @@ public class Main {
 
         chatArea.setEditable(false);
 
-        // Create a list of people
-        // Inside the Main constructor
-        DefaultListModel<String> listModel = new DefaultListModel<>();
-        listModel.addElement("Person 1");
-        listModel.addElement("Person 2");
-        listModel.addElement("Person 3");
-        JList<String> peopleList = new JList<>(listModel);
-        peopleList.setCellRenderer(new CenteredListCellRenderer());
-        JScrollPane peopleScrollPane = new JScrollPane(peopleList);
-        peopleScrollPane.setPreferredSize(new Dimension(200, 0));
-
         // Create a panel to hold the chat area and input panel
         JPanel chatPanel = new JPanel(new BorderLayout());
         chatPanel.add(new JScrollPane(chatArea), BorderLayout.CENTER);
@@ -66,7 +55,6 @@ public class Main {
         chatPanel.add(inputPanel, BorderLayout.SOUTH);
 
         frame.setLayout(new BorderLayout());
-        frame.add(peopleScrollPane, BorderLayout.WEST);
         frame.add(chatPanel, BorderLayout.CENTER);
 
         ActionListener sendAction = new ActionListener() {
@@ -198,12 +186,4 @@ public class Main {
         sc.close();
     }
 
-    public class CenteredListCellRenderer extends DefaultListCellRenderer {
-        @Override
-        public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-            JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-            label.setHorizontalAlignment(SwingConstants.CENTER);
-            return label;
-        }
-    }
 }
