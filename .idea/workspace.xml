@@ -4,9 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8b9b9314-e9b6-4f2b-a631-fa368c92c4a4" name="Changes" comment="Add cross platform support (ngrok)">
-      <change beforePath="$PROJECT_DIR$/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/MainClient.java" afterDir="false" />
+    <list default="true" id="8b9b9314-e9b6-4f2b-a631-fa368c92c4a4" name="Changes" comment="Completion">
+      <change afterPath="$PROJECT_DIR$/AdminConsole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Components/ChatBubble.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/MainUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MainClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebsocketServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/WebsocketServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WriteToLocal.java" beforeDir="false" afterPath="$PROJECT_DIR$/WriteToLocal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/history.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,10 +38,13 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Awe03/ChatAppGr11.git&quot;,
+    &quot;url&quot;: &quot;https://github.com/awe03/chatappgr11&quot;,
     &quot;accountId&quot;: &quot;6d936234-d7f1-4af6-a507-f6890080a5b9&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
 }</component>
@@ -48,7 +58,11 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Application.AdminConsole.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Client.executor&quot;: &quot;Run&quot;,
     &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.MainClient.executor&quot;: &quot;Run&quot;,
+    &quot;Application.MainUser.executor&quot;: &quot;Run&quot;,
     &quot;Application.WebsocketServer.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
@@ -59,6 +73,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -70,8 +85,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.18034.62" />
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.18034.62" />
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.19072.14" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.19072.14" />
       </set>
     </attachedChunks>
   </component>
@@ -92,6 +107,12 @@
       <workItem from="1722864431453" duration="1021000" />
       <workItem from="1722871439136" duration="103000" />
       <workItem from="1722872011372" duration="2958000" />
+      <workItem from="1724847417070" duration="524000" />
+      <workItem from="1724848043425" duration="39000" />
+      <workItem from="1724848090648" duration="97000" />
+      <workItem from="1724848195653" duration="18000" />
+      <workItem from="1724848220651" duration="4728000" />
+      <workItem from="1724858689550" duration="1635000" />
     </task>
     <task id="LOCAL-00001" summary="Update gitignore (not working)?">
       <option name="closed" value="true" />
@@ -117,16 +138,36 @@
       <option name="project" value="LOCAL" />
       <updated>1722874367644</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Add cross platform support (ngrok)">
+      <option name="closed" value="true" />
+      <created>1724161233877</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1724161233877</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Update gitignore (not working)?" />
     <MESSAGE value="Add the side bar for the list of users" />
     <MESSAGE value="Add cross platform support (ngrok)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add cross platform support (ngrok)" />
+    <MESSAGE value="Completion" />
+    <option name="LAST_COMMIT_MESSAGE" value="Completion" />
   </component>
 </project>

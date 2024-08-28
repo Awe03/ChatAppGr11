@@ -6,21 +6,63 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
-public class Main {
+public class Client {
 
     private final JTextArea chatArea;
     private final JTextField inputField;
     private OutputStream outputStream;
+    private boolean typedSomething = false;
 
-    public Main(String username, String ngrokUrl) {
+    public Client(String username, String ngrokUrl) {
+        // Create the main application window
         JFrame frame = new JFrame("Chat App - " + username);
-        chatArea = new JTextArea();
-        inputField = new JTextField(30);
-        JButton sendButton = new JButton("Send as " + username);
 
-        // Set placeholder text
+        // Define a modern font to be used in the UI
+        Font modernFont = new Font("Segoe UI", Font.PLAIN, 16);
+
+        // Initialize the chat area where messages will be displayed
+        chatArea = new JTextArea();
+        chatArea.setFont(modernFont);
+        chatArea.setBackground(new Color(40, 44, 52));
+        chatArea.setForeground(Color.WHITE);
+        chatArea.setEditable(false);
+        chatArea.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // Initialize the input field where users will type their messages
+        inputField = new JTextField(30);
+        inputField.setFont(modernFont);
+        inputField.setBackground(new Color(50, 54, 62));
+        inputField.setForeground(Color.WHITE);
+        inputField.setCaretColor(Color.WHITE);
+        inputField.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // Create the send button
+        JButton sendButton = new JButton("Send");
+        sendButton.setFont(modernFont);
+        sendButton.setBackground(new Color(0, 123, 255));
+        sendButton.setForeground(Color.WHITE);
+        sendButton.setFocusPainted(false);
+        sendButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        sendButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        // Add mouse listener to change button color on hover
+        sendButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                sendButton.setBackground(new Color(0, 150, 255));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                sendButton.setBackground(new Color(0, 123, 255));
+            }
+        });
+
+        // Placeholder text handling for the input field
         inputField.setText("Type your message");
         inputField.setForeground(Color.GRAY);
 
@@ -29,7 +71,7 @@ public class Main {
             public void focusGained(FocusEvent e) {
                 if (inputField.getText().equals("Type your message")) {
                     inputField.setText("");
-                    inputField.setForeground(Color.BLACK);
+                    inputField.setForeground(Color.WHITE);
                 }
             }
 
@@ -38,65 +80,79 @@ public class Main {
                 if (inputField.getText().isEmpty()) {
                     inputField.setText("Type your message");
                     inputField.setForeground(Color.GRAY);
+                    typedSomething = false;
                 }
             }
         });
 
-        chatArea.setEditable(false);
-
-        // Create a panel to hold the chat area and input panel
-        JPanel chatPanel = new JPanel(new BorderLayout());
-        chatPanel.add(new JScrollPane(chatArea), BorderLayout.CENTER);
-
-        JPanel inputPanel = new JPanel(new BorderLayout());
-        inputField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        inputPanel.add(inputField, BorderLayout.CENTER);
-        inputPanel.add(sendButton, BorderLayout.EAST);
-        chatPanel.add(inputPanel, BorderLayout.SOUTH);
-
-        frame.setLayout(new BorderLayout());
-        frame.add(chatPanel, BorderLayout.CENTER);
-
+        // Action listener for the send button
         ActionListener sendAction = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String message = inputField.getText();
-                if (!message.isEmpty()) {
+                if (typedSomething && !message.isEmpty()) {
                     sendMessage(message, username);
                     inputField.setText("");
+                    typedSomething = false;
                 }
             }
         };
 
         sendButton.addActionListener(sendAction);
 
+        // Key listener for the input field to handle Enter key press
         inputField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
+                if (!inputField.getText().equals("Type your message")) {
+                    typedSomething = true;
+                }
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     sendAction.actionPerformed(null);
                 }
             }
         });
 
+        // Layout for the input panel
+        JPanel inputPanel = new JPanel(new BorderLayout());
+        inputPanel.setBackground(new Color(30, 34, 42));
+        inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        inputPanel.add(inputField, BorderLayout.CENTER);
+        inputPanel.add(sendButton, BorderLayout.EAST);
+
+        // Layout for the chat panel
+        JPanel chatPanel = new JPanel(new BorderLayout());
+        chatPanel.setBackground(new Color(30, 34, 42));
+        chatPanel.add(new JScrollPane(chatArea), BorderLayout.CENTER);
+        chatPanel.add(inputPanel, BorderLayout.SOUTH);
+
+        // Set up the main frame with the chat panel
+        frame.setLayout(new BorderLayout());
+        frame.add(chatPanel, BorderLayout.CENTER);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1280, 720);
         frame.setVisible(true);
 
+        // Connect to the server using the provided ngrok URL
         connectToServer(ngrokUrl);
+
+        // Timer to refresh chat history every second
+        Timer refreshTimer = new Timer(1000, (e) -> refreshChatHistory());
+        refreshTimer.start();
     }
 
+    // Method to connect to the server using the provided ngrok URL
     private void connectToServer(String ngrokUrl) {
         try {
             URI uri = new URI(ngrokUrl);
             String host = uri.getHost();
-            int port = uri.getPort() == -1 ? 80 : uri.getPort(); // Default to port 80 if not specified
+            int port = uri.getPort() == -1 ? 80 : uri.getPort();
 
             Socket socket = new Socket(host, port);
             outputStream = socket.getOutputStream();
             InputStream inputStream = socket.getInputStream();
 
-            // Perform WebSocket handshake
+            // WebSocket handshake request
             String handshake = "GET / HTTP/1.1\r\n" +
                     "Host: " + host + "\r\n" +
                     "Upgrade: websocket\r\n" +
@@ -107,15 +163,15 @@ public class Main {
             outputStream.write(handshake.getBytes(StandardCharsets.UTF_8));
             outputStream.flush();
 
-            // Read the server response
             byte[] buffer = new byte[4096];
             int bytesRead = inputStream.read(buffer);
             String response = new String(buffer, 0, bytesRead, StandardCharsets.UTF_8);
-            System.out.println(response);
+
+            // Check if the server accepted the WebSocket handshake
             if (response.contains("HTTP/1.1 101 Switching Protocols")) {
                 chatArea.append("Connected to server\n");
 
-                // Start a thread to read messages from the server
+                // Start a new thread to listen for incoming messages
                 new Thread(() -> {
                     try {
                         while (true) {
@@ -156,6 +212,7 @@ public class Main {
         }
     }
 
+    // Method to send a message to the server
     private void sendMessage(String message, String username) {
         try {
             String formattedMessage = username + ": " + message;
@@ -168,22 +225,38 @@ public class Main {
         }
     }
 
+    // Method to refresh chat history from the local storage file
+    private void refreshChatHistory() {
+        try {
+            if (Files.exists(Paths.get("history.json"))) {
+                String content = new String(Files.readAllBytes(Paths.get("history.json")), StandardCharsets.UTF_8);
+                String[] messagesArray = content.substring(1, content.length() - 1).split("\",\"");
+                StringBuilder historyBuilder = new StringBuilder("Connected to server\n");
+                for (String message : messagesArray) {
+                    message = message.replaceAll("^\"|\"$", "").replace("\\\"", "\"");
+                    historyBuilder.append(message).append("\n");
+                }
+                chatArea.setText(historyBuilder.toString());
+            } else {
+                chatArea.setText("Connected to server\n");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("Enter username: ");
         String username = sc.nextLine();
 
-        new Thread(() -> {
-            WebsocketServer.main(new String[]{});
-        }).start();
-
         System.out.print("Enter the ngrok URL: ");
         String ngrokUrl = sc.nextLine();
 
-        SwingUtilities.invokeLater(() -> new Main(username, ngrokUrl));
+        // Start the main user interface
+        SwingUtilities.invokeLater(() -> new Client(username, ngrokUrl));
 
         sc.close();
     }
-
 }

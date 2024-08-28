@@ -11,9 +11,11 @@ public class WebsocketServer {
     private static final WriteToLocal writeToLocal = new WriteToLocal();
 
     public static void main(String[] args) {
+        // Start the WebSocket server on port 3030
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             System.out.println("WebSocket server started on port " + PORT);
 
+            // Constantly accept new client connections
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 ClientHandler clientHandler = new ClientHandler(clientSocket);
@@ -38,7 +40,7 @@ public class WebsocketServer {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
                 outputStream = clientSocket.getOutputStream();
 
-                // Perform WebSocket handshake
+                // Perform the WebSocket handshake
                 String data;
                 StringBuilder request = new StringBuilder();
                 while (!(data = reader.readLine()).isEmpty()) {
@@ -59,9 +61,10 @@ public class WebsocketServer {
                     throw new IllegalArgumentException("WebSocket key not found in request.");
                 }
 
+                // Generate the accept key for the WebSocket handshake response
                 String acceptKey = generateAcceptKey(webSocketKey);
 
-
+                // Send the WebSocket handshake response
                 String response = "HTTP/1.1 101 Switching Protocols\r\n" +
                         "Upgrade: websocket\r\n" +
                         "Connection: Upgrade\r\n" +
@@ -74,7 +77,7 @@ public class WebsocketServer {
                     sendMessage(message);
                 }
 
-                // Echo messages back to the client and log them
+                // Continuously read and broadcast messages from the client
                 while (true) {
                     int firstByte = clientSocket.getInputStream().read();
                     if (firstByte == -1) break;
@@ -106,6 +109,7 @@ public class WebsocketServer {
             }
         }
 
+        // Function for broadcasting a message to all connected clients
         private void broadcastMessage(String message) {
             for (ClientHandler client : clients) {
                 try {
@@ -116,6 +120,7 @@ public class WebsocketServer {
             }
         }
 
+        // Send a message to the client
         private void sendMessage(String message) throws Exception {
             byte[] messageBytes = message.getBytes(StandardCharsets.UTF_8);
             outputStream.write(new byte[]{(byte) 0x81, (byte) messageBytes.length});
@@ -123,6 +128,7 @@ public class WebsocketServer {
             outputStream.flush();
         }
 
+        // Generate the accept key for the WebSocket handshake response
         private String generateAcceptKey(String webSocketKey) throws Exception {
             String key = webSocketKey + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
             MessageDigest md = MessageDigest.getInstance("SHA-256");
