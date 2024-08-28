@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8b9b9314-e9b6-4f2b-a631-fa368c92c4a4" name="Changes" comment="Completion">
-      <change afterPath="$PROJECT_DIR$/AdminConsole.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Components/ChatBubble.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/MainUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MainClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebsocketServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/WebsocketServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WriteToLocal.java" beforeDir="false" afterPath="$PROJECT_DIR$/WriteToLocal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/history.json" beforeDir="false" />
-    </list>
+    <list default="true" id="8b9b9314-e9b6-4f2b-a631-fa368c92c4a4" name="Changes" comment="Add bluej package too" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -115,7 +105,7 @@
       <workItem from="1724848090648" duration="97000" />
       <workItem from="1724848195653" duration="18000" />
       <workItem from="1724848220651" duration="4728000" />
-      <workItem from="1724858689550" duration="1973000" />
+      <workItem from="1724858689550" duration="2198000" />
     </task>
     <task id="LOCAL-00001" summary="Update gitignore (not working)?">
       <option name="closed" value="true" />
@@ -157,7 +147,15 @@
       <option name="project" value="LOCAL" />
       <updated>1724860681342</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Add bluej package too">
+      <option name="closed" value="true" />
+      <created>1724860899143</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1724860899143</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -179,6 +177,7 @@
     <MESSAGE value="Add the side bar for the list of users" />
     <MESSAGE value="Add cross platform support (ngrok)" />
     <MESSAGE value="Completion" />
-    <option name="LAST_COMMIT_MESSAGE" value="Completion" />
+    <MESSAGE value="Add bluej package too" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add bluej package too" />
   </component>
 </project>
