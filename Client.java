@@ -230,18 +230,25 @@ public class Client {
         }
     }
 
-    // Method to request chat history from the server
-    private void requestChatHistory() {
-        try {
-            String request = "GET_HISTORY";
-            byte[] requestBytes = request.getBytes(StandardCharsets.UTF_8);
-            outputStream.write(new byte[]{(byte) 0x81, (byte) requestBytes.length});
-            outputStream.write(requestBytes);
-            outputStream.flush();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    // Method to refresh chat history from the local storage file
+    // private void refreshChatHistory() {
+    //     try {
+    //         if (Files.exists(Paths.get("history.json"))) {
+    //             String content = new String(Files.readAllBytes(Paths.get("history.json")), StandardCharsets.UTF_8);
+    //             String[] messagesArray = content.substring(1, content.length() - 1).split("\",\"");
+    //             StringBuilder historyBuilder = new StringBuilder("Connected to server\n");
+    //             for (String message : messagesArray) {
+    //                 message = message.replaceAll("^\"|\"$", "").replace("\\\"", "\"");
+    //                 historyBuilder.append(message).append("\n");
+    //             }
+    //             chatArea.setText(historyBuilder.toString());
+    //         } else {
+    //             chatArea.setText("Connected to server\n");
+    //         }
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);

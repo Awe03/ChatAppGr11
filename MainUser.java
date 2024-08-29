@@ -137,8 +137,8 @@ public class MainUser {
         connectToServer(ngrokUrl);
 
         // Timer to refresh chat history every second
-        Timer refreshTimer = new Timer(1000, (e) -> refreshChatHistory());
-        refreshTimer.start();
+        // Timer refreshTimer = new Timer(1000, (e) -> refreshChatHistory());
+        // refreshTimer.start();
     }
 
     // Method to connect to the server using the provided ngrok URL
@@ -226,24 +226,24 @@ public class MainUser {
     }
 
     // Method to refresh chat history from the local storage file
-    private void refreshChatHistory() {
-        try {
-            if (Files.exists(Paths.get("history.json"))) {
-                String content = new String(Files.readAllBytes(Paths.get("history.json")), StandardCharsets.UTF_8);
-                String[] messagesArray = content.substring(1, content.length() - 1).split("\",\"");
-                StringBuilder historyBuilder = new StringBuilder("Connected to server\n");
-                for (String message : messagesArray) {
-                    message = message.replaceAll("^\"|\"$", "").replace("\\\"", "\"");
-                    historyBuilder.append(message).append("\n");
-                }
-                chatArea.setText(historyBuilder.toString());
-            } else {
-                chatArea.setText("Connected to server\n");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    // private void refreshChatHistory() {
+    //     try {
+    //         if (Files.exists(Paths.get("history.json"))) {
+    //             String content = new String(Files.readAllBytes(Paths.get("history.json")), StandardCharsets.UTF_8);
+    //             String[] messagesArray = content.substring(1, content.length() - 1).split("\",\"");
+    //             StringBuilder historyBuilder = new StringBuilder("Connected to server\n");
+    //             for (String message : messagesArray) {
+    //                 message = message.replaceAll("^\"|\"$", "").replace("\\\"", "\"");
+    //                 historyBuilder.append(message).append("\n");
+    //             }
+    //             chatArea.setText(historyBuilder.toString());
+    //         } else {
+    //             chatArea.setText("Connected to server\n");
+    //         }
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
