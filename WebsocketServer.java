@@ -91,11 +91,19 @@ public class WebsocketServer {
                     String receivedMessage = new String(payload, StandardCharsets.UTF_8);
                     System.out.println(receivedMessage);
 
-                    // Save the received message
-                    writeToLocal.saveMessage(receivedMessage);
+                    if (receivedMessage.equals("GET_HISTORY")) {
+                        // Send the chat history to the client
+                        history = writeToLocal.loadChatHistory();
+                        for (String message : history) {
+                            sendMessage(message);
+                        }
+                    } else {
+                        // Save the received message
+                        writeToLocal.saveMessage(receivedMessage);
 
-                    // Broadcast the received message to all clients
-                    broadcastMessage(receivedMessage);
+                        // Broadcast the received message to all clients
+                        broadcastMessage(receivedMessage);
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();

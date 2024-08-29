@@ -6,8 +6,8 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.Scanner;
 
 public class Client {
@@ -137,8 +137,13 @@ public class Client {
         connectToServer(ngrokUrl);
 
         // Timer to refresh chat history every second
-        Timer refreshTimer = new Timer(1000, (e) -> refreshChatHistory());
-        refreshTimer.start();
+        // Timer refreshTimer = new Timer();
+        // refreshTimer.schedule(new TimerTask() {
+        //     @Override
+        //     public void run() {
+        //         requestChatHistory();
+        //     }
+        // }, 0, 1000);
     }
 
     // Method to connect to the server using the provided ngrok URL
@@ -225,21 +230,14 @@ public class Client {
         }
     }
 
-    // Method to refresh chat history from the local storage file
-    private void refreshChatHistory() {
+    // Method to request chat history from the server
+    private void requestChatHistory() {
         try {
-            if (Files.exists(Paths.get("history.json"))) {
-                String content = new String(Files.readAllBytes(Paths.get("history.json")), StandardCharsets.UTF_8);
-                String[] messagesArray = content.substring(1, content.length() - 1).split("\",\"");
-                StringBuilder historyBuilder = new StringBuilder("Connected to server\n");
-                for (String message : messagesArray) {
-                    message = message.replaceAll("^\"|\"$", "").replace("\\\"", "\"");
-                    historyBuilder.append(message).append("\n");
-                }
-                chatArea.setText(historyBuilder.toString());
-            } else {
-                chatArea.setText("Connected to server\n");
-            }
+            String request = "GET_HISTORY";
+            byte[] requestBytes = request.getBytes(StandardCharsets.UTF_8);
+            outputStream.write(new byte[]{(byte) 0x81, (byte) requestBytes.length});
+            outputStream.write(requestBytes);
+            outputStream.flush();
         } catch (Exception e) {
             e.printStackTrace();
         }
